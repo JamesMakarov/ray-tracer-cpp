@@ -12,3 +12,6 @@ main.exe
 # OS
 .DS_Store
 Thumbs.db
+
+# Generated renders
+output/*.ppm
