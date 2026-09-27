@@ -1,0 +1,18 @@
+CXX ?= g++
+CXXFLAGS ?= -std=c++17 -O2 -Wall -Wextra -pedantic
+TARGET := ray-tracer
+SOURCE := src/main.cpp
+
+.PHONY: all render clean
+
+all: $(TARGET)
+
+$(TARGET): $(SOURCE)
+	$(CXX) $(CXXFLAGS) -Iinclude $(SOURCE) -o $(TARGET)
+
+render: $(TARGET)
+	mkdir -p output
+	printf '%s\n' -1 | ./$(TARGET) > output/imagem.ppm
+
+clean:
+	rm -f $(TARGET) ray-tracer.exe
