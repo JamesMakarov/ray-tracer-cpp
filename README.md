@@ -1,5 +1,7 @@
 # C++ Ray Tracer
 
+[![C++ build and tests](https://github.com/JamesMakarov/ray-tracer-cpp/actions/workflows/ci.yml/badge.svg)](https://github.com/JamesMakarov/ray-tracer-cpp/actions/workflows/ci.yml)
+
 CPU renderer written in **C++** that generates a 500×500 image using ray casting, geometric intersection tests and Blinn-Phong lighting.
 
 The project was developed for a Computer Graphics course and implements the rendering pipeline from scratch without relying on a graphics engine.
@@ -97,6 +99,18 @@ On Windows with MinGW, you can compile directly:
 ```bash
 g++ -std=c++17 -O2 -Iinclude src/main.cpp -o ray-tracer.exe
 ```
+
+## Tests
+
+The repository includes lightweight C++ tests for the math primitives used by the renderer, including vector operations and transformation matrices.
+
+Run:
+
+```bash
+make test
+```
+
+Build and tests also run automatically on GitHub Actions.
 
 ## Rendering an image
 
