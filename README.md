@@ -86,13 +86,13 @@ The renderer uses 20 samples per pixel in the current configuration.
 
 - a C++17-compatible compiler such as GCC/MinGW or Clang.
 
-Compile with:
+On Linux/macOS, compile with the included Makefile:
 
 ```bash
-g++ -std=c++17 -O2 -Iinclude src/main.cpp -o ray-tracer
+make
 ```
 
-On Windows with MinGW:
+On Windows with MinGW, you can compile directly:
 
 ```bash
 g++ -std=c++17 -O2 -Iinclude src/main.cpp -o ray-tracer.exe
@@ -105,8 +105,10 @@ The renderer writes the PPM image to standard output and progress information to
 Linux/macOS:
 
 ```bash
-printf '%s\n' -1 | ./ray-tracer > output/imagem.ppm
+make render
 ```
+
+The Makefile creates `output/` when necessary and writes the generated image to `output/imagem.ppm`.
 
 Windows PowerShell:
 
