@@ -1,55 +1,134 @@
-Requisitos e pontuações da apresentação final:
+# C++ Ray Tracer
 
-1.     Definição do cenário 
-1.1.    Coerência temática (Obrigatório)
-O cenário tem de ter coerência temática, isto é, não pode ser um amontoado de objetos aleatoriamente distribuídos.
-1.2.    Coordenadas do mundo (Obrigatório) 
-O cenário deve ser montado de forma que todos os objetos estejam no primeiro octante, isto é, as coordenadas dos vértices de todos os objetos terão x, y e z positivos.
-1.3.    Objetos
-1.3.1. Tipos de objetos (apresentar pelo menos um objeto de cada tipo) (Obrigatório)
-·       Esfera
-·       Cilindro
-·       Cone
-·       Malha
-1.3.2. Materiais (pelo menos quatro materiais distintos) (Obrigatório)
-1.3.3. Textura (pelo menos uma textura aplicada) (Obrigatório)
-1.4.    Transformações
-1.4.1. Translação (Obrigatório)
-1.4.2. Rotação 
-·       Em torno de um dos eixos x, y ou z (Obrigatório)
-·       Em torno de um eixo arbitrário (Obrigatório um dos dois métodos)
-             o    Mudança de sistemas de coordenadas 
-             o    Quatérnios
-1.4.3. Escala (Obrigatório)
-1.4.4. Cisalhamento (+ 0.5)
-1.4.5. Espelho em relação a um plano arbitrário (+ 0.5)
-1.5.    Fontes luminosas
-1.5.1. Pontual (Obrigatório)
-1.5.2. Spot (+1.0)
-1.5.3. Direcional (+0.5)
-1.5.4. Ambiente (Obrigatório)
-2.     Câmera
-2.1.    Permitir a especificação de (Obrigatório)
-2.1.1. Posição da câmera (Eye)
-2.1.2. Direcionamento de visada (At point)
-2.1.3. Orientação da câmara em torno do eixo de visada (Up point)
-2.2.    Parâmetros adicionais (Obrigatório)
-2.2.1. Distância focal (d)
-2.2.2. Campo de visão (definir as coordenadas de câmera da janela: xmin, xmax, ymin, ymax) 
-3.     Projeções
-3.1.    Perspectiva (Obrigatório)
-3.1.1. Alterar os parâmetros adicionais da câmera para  
-3.1.1.1. aumentar o campo de visão (zoom out) (Obrigatório)
-3.1.1.2. diminuir o campo de visão (zoom in)(Obrigatório)
-3.1.2. Demonstrar como posicionar a câmerapara obter
-3.1.2.1. Perspectiva com um ponto de fuga (+0.5)
-3.1.2.2. Perspectiva com dois pontos de fuga (+ 0.5)
-3.1.2.3. Perspectiva com três ou mais pontos de fuga (+ 0.5)
-3.2.    Ortográfica (+ 0.5)
-3.3.    Obliqua (+0.5)
-4.     Sombra (Obrigatório)
-5.     Interatividade
-5.1.    Implementar a função de pick (Obrigatório)
-5.2.    Uso de interface gráfica (Bônus de 0.5 a 1.0)
-6.     Imagem gerada por ray casting com pelo menos 500 x 500 pixels (Obrigatório)
-7.     Bônus de criatividade e beleza (até 1.0)
+CPU renderer written in **C++** that generates a 500×500 image using ray casting, geometric intersection tests and Blinn-Phong lighting.
+
+The project was developed for a Computer Graphics course and implements the rendering pipeline from scratch without relying on a graphics engine.
+
+## Features
+
+- perspective camera;
+- ray/object intersection tests;
+- spheres;
+- cylinders;
+- cones;
+- box mesh;
+- object instances with transformation matrices;
+- translation and rotation;
+- mirrored instance;
+- ambient, diffuse and specular lighting;
+- Blinn-Phong shading;
+- hard shadows using shadow rays;
+- solid-color and checker textures;
+- multiple materials;
+- anti-aliasing through multiple samples per pixel;
+- interactive pixel picking after rendering;
+- PPM image output.
+
+## Project structure
+
+```text
+.
+├── include/
+│   ├── camera.h
+│   ├── cone.h
+│   ├── cylinder.h
+│   ├── hittable.h
+│   ├── hittable_list.h
+│   ├── instance.h
+│   ├── mat4.h
+│   ├── material.h
+│   ├── mesh.h
+│   ├── ray.h
+│   ├── sphere.h
+│   ├── texture.h
+│   ├── utils.h
+│   ├── vec3.h
+│   └── vec4.h
+├── src/
+│   └── main.cpp
+└── output/
+    └── imagem.ppm
+```
+
+## Rendering pipeline
+
+For each output pixel, the renderer generates one or more rays from the camera into the scene.
+
+When a ray hits an object, the renderer evaluates:
+
+1. the surface material;
+2. the surface normal;
+3. ambient contribution;
+4. visibility of the point light through a shadow ray;
+5. diffuse contribution;
+6. specular contribution using the Blinn-Phong model.
+
+If no object is hit, a gradient background is returned.
+
+## Scene
+
+The current scene contains:
+
+- a large textured ground sphere;
+- a cylindrical central object;
+- a red sphere;
+- a cone;
+- a mirrored cone instance;
+- a rotated box mesh;
+- a point light;
+- a perspective camera.
+
+The renderer uses 20 samples per pixel in the current configuration.
+
+## Building
+
+### Requirements
+
+- a C++17-compatible compiler such as GCC/MinGW or Clang.
+
+Compile with:
+
+```bash
+g++ -std=c++17 -O2 -Iinclude src/main.cpp -o ray-tracer
+```
+
+On Windows with MinGW:
+
+```bash
+g++ -std=c++17 -O2 -Iinclude src/main.cpp -o ray-tracer.exe
+```
+
+## Rendering an image
+
+The renderer writes the PPM image to standard output and progress information to standard error.
+
+Linux/macOS:
+
+```bash
+printf '%s\n' -1 | ./ray-tracer > output/imagem.ppm
+```
+
+Windows PowerShell:
+
+```powershell
+"-1" | .\ray-tracer.exe > output\imagem.ppm
+```
+
+The generated file uses the ASCII PPM (`P3`) format.
+
+## Picking
+
+After the render is complete, the program can receive pixel coordinates and fire the corresponding camera ray through the scene.
+
+For a hit, it reports information such as:
+
+- world-space hit point;
+- surface normal;
+- distance parameter;
+- UV coordinates.
+
+Enter `-1` to leave the picking mode.
+
+## Notes
+
+The renderer is intentionally educational: the geometry, matrices, camera, materials and lighting calculations are implemented directly in the project so the rendering process remains visible in the source code.
