@@ -1,0 +1,14 @@
+# Build artifacts
+ray-tracer
+ray-tracer.exe
+main.exe
+*.o
+*.obj
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
